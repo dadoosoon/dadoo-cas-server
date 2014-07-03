@@ -6,6 +6,7 @@
 
 package im.dadoo.cas.server.controller;
 
+import com.google.common.base.Optional;
 import im.dadoo.cas.domain.User;
 import im.dadoo.cas.server.service.SignService;
 import javax.annotation.Resource;
@@ -27,7 +28,8 @@ public class SignController {
   
   @RequestMapping(value = "/signin", method = RequestMethod.POST)
   @ResponseBody
-  public User signin(@RequestParam String name, @RequestParam String password) {
-    return this.signService.signin(name, password);
+  public boolean signin(@RequestParam String name, @RequestParam String password) {
+    Optional<User> user = this.signService.signin(name, password);
+    return user.isPresent();
   }
 }

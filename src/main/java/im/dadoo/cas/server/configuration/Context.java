@@ -28,27 +28,27 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 //@EnableAspectJAutoProxy
-//@PropertySource("classpath:config.properties")
+@PropertySource("classpath:config.properties")
 @ComponentScan("im.dadoo.cas")
 public class Context extends WebMvcConfigurerAdapter {
   
   @Resource
   private Environment env;
   
-//  @Bean(initMethod = "init", destroyMethod = "close")
-//  public DataSource dataSource() {
-//    DruidDataSource dataSource = new DruidDataSource();
-//    dataSource.setUrl(env.getProperty("jdbc.url"));
-//    dataSource.setUsername(env.getProperty("jdbc.username"));
-//    dataSource.setPassword(env.getProperty("jdbc.password"));
-//    return dataSource;
-//  }
+  @Bean(initMethod = "init", destroyMethod = "close")
+  public DataSource dataSource() {
+    DruidDataSource dataSource = new DruidDataSource();
+    dataSource.setUrl(env.getProperty("jdbc.url"));
+    dataSource.setUsername(env.getProperty("jdbc.username"));
+    dataSource.setPassword(env.getProperty("jdbc.password"));
+    return dataSource;
+  }
   
-//  @Bean
-//  public NamedParameterJdbcTemplate jdbcTemplate() {
-//    NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(this.dataSource());
-//    return jdbcTemplate;
-//  }
+  @Bean
+  public NamedParameterJdbcTemplate jdbcTemplate() {
+    NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(this.dataSource());
+    return jdbcTemplate;
+  }
   
   @Bean
   public InternalResourceViewResolver viewResolver() {

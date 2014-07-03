@@ -6,7 +6,10 @@
 
 package im.dadoo.cas.server.service;
 
+import com.google.common.base.Optional;
 import im.dadoo.cas.domain.User;
+import im.dadoo.cas.server.dao.UserDao;
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +21,15 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class SignService {
   
-  public User signin(String name, String password) {
-    return new User(name, password);
+  @Resource
+  private UserDao userDao;
+  
+  public Optional<User> signin(String name, String password) {
+    Optional<User> user = this.userDao.findByName(name);
+    if (user.isPresent() && user.get().getPassword().equals(password)) {
+      return user;
+    } else {
+      return Optional.absent();
+    }
   }
 }
